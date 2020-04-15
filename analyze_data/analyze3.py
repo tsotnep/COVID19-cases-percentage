@@ -45,7 +45,7 @@ rects1=ax.bar(x_pos-0.4, cases['tests_pop'],                        width=0.2, a
 rects2=ax.bar(x_pos-0.2, cases['cases_pop'],                        width=0.2, align='center', color='orange'   , label='total cases of population in %')
 ax.set_xticks(x_pos)
 ax.set_xticklabels(cases['country']+'\n tested \n population in % \n'+round(cases['tests_pop'],5).astype(str),fontsize=5)
-ax.set_ylabel('cases')
+ax.set_ylabel('percentage')
 ax.set_title('cases by country')
 ax.legend()
 

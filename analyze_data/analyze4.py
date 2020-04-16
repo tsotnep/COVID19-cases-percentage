@@ -2,22 +2,20 @@ import json
 import requests 
 import numpy as np
 import pandas as pd
-
-import csv
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from itertools import cycle
 from itertools import repeat
-import copy
 import os
 
 #changables>>
 
-countriesOfInterest = ['Croatia','Estonia','Armenia','Lithuania','Bulgaria','Latvia','Georgia'] #comment if you need long list of countries
-graphImgPath="../img4_cases"+'-'.join(countriesOfInterest)+".png"
-fromFirstNofCases = 1 
-Normalized = False #normalized cases by country, meaning divide all day's cases by country's population, make it True if you want so.
+countriesOfInterest = ['Croatia','Estonia','Armenia','Lithuania','Bulgaria','Latvia','Georgia','Turkey','Italy','Germany','Azerbaijan'] #comment if you need long list of countries
+graphImgPath="../img4_cases_R_"+'-'.join(countriesOfInterest)+".png"
+fromFirstNOfCases = 30
+firstNOfdays = -1
+Normalized = True # if True, cases/(population in million) 
 path_casesByDays="https://raw.githubusercontent.com/pomber/covid19/master/docs/timeseries.json"
 path_population="../parsed_population.json"
 showCases = True
@@ -30,7 +28,8 @@ showDeaths = False
 population_json = json.load(open(path_population))
 population = pd.DataFrame.from_dict(population_json)
 population.drop(population.loc[population['country'].isin(countriesOfInterest)==False].index, inplace=True) #remove countries out of our interest
-population.reset_index(drop=True, inplace=True) #remove old indexes and add new
+population.set_index('country',inplace=True, drop=True) #set 'country' to be indexes
+population['inMillions'] = round(population['population']/1000000,2)
 
 #leave only the countries we need
 cases_json = requests.get(path_casesByDays).json()
@@ -48,12 +47,17 @@ for country in countriesOfInterest:
         confirmedBydays.at[country, days] = cases[country][days]['confirmed']
         deathsBydays.at[country, days] = cases[country][days]['deaths']
         recoveredBydays.at[country, days] = cases[country][days]['recovered']
-        if (firstCaseFound == False and cases[country][days]['confirmed'] >= fromFirstNofCases): 
+        if (firstCaseFound == False and cases[country][days]['confirmed'] >= fromFirstNOfCases): 
             firstCaseFound = True
             firstCases.at[country,0] = days
 
-#TODO: add normalization with population
+if (Normalized): 
+    for country in countriesOfInterest:
+        confirmedBydays.loc[country] = (confirmedBydays.loc[country] / population.at[country,'inMillions'])
+        deathsBydays.loc[country] = (deathsBydays.loc[country] / population.at[country,'inMillions'])
+        recoveredBydays.loc[country] = (recoveredBydays.loc[country] / population.at[country,'inMillions'])
 
+#print (confirmedBydays)
 fig, ax = plt.subplots()
 lines = ["-","--","-."] #line types
 linecycler = cycle(lines)
@@ -61,25 +65,32 @@ for country in countriesOfInterest:
     firstCaseIndex=int(firstCases.loc[country])
     lastCaseX=int(cases[cases.columns[0]].count())-1
     if (showRecoveries): 
-        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), recoveredBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' recov')
+        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), recoveredBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' recov') 
         lastCaseY=int(recoveredBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=6)
+        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showDeaths): 
         ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), deathsBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' death')
         lastCaseY=int(deathsBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=6)
+        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showCases): 
-        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' cases')
+        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+', '+str(population.at[country,'inMillions'])+'m')
         lastCaseY=int(confirmedBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=6)
+        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
 
-ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNofCases)+"  cases")
+if (Normalized): ax.set(xlabel='days', ylabel='N of cases divided by population in millions', title="from first "+str(fromFirstNOfCases)+"  cases")
+else: ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")
 ax.grid()
+if (firstNOfdays>0):
+    plt.xlim(0,firstNOfdays)
 
 #legend location
 box = ax.get_position()
 ax.set_position([box.x0, box.y0 + box.height * 0.05, box.width, box.height])
-ax.legend(fontsize=6, loc='upper center', bbox_to_anchor=(0.5, -0.1),fancybox=False, shadow=False, ncol=5)
+ax.legend(fontsize=6, loc='upper center', bbox_to_anchor=(0.5, -0.05),fancybox=False, shadow=False, ncol=5)
 
 #save to file
+if(Normalized): 
+    s=list(graphImgPath)
+    s[14]="N"
+    graphImgPath = "".join(s)
 fig.savefig(graphImgPath, dpi = 300)

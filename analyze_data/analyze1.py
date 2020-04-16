@@ -7,7 +7,7 @@ import numpy as np
 
 path_population="../parsed_population.json"
 path_cases="../parsed_cases.json"
-graphImgPath="../plot1.png"
+graphImgPath="../img1_Inf_Dead_Recov.png"
 countriesOfInterest = ['Georgia', 'Armenia', 'Bulgaria', 'Lithuania', 'Croatia', 'Estonia', 'Latvia' ] #comment if you need long list of countries
 
 population_json = json.load(open(path_population))

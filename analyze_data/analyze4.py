@@ -11,9 +11,9 @@ import os
 
 #changables>>
 
-countriesOfInterest = ['Croatia','Estonia','Armenia','Lithuania','Bulgaria','Latvia','Georgia','Turkey','Italy','Germany','Azerbaijan'] #comment if you need long list of countries
+countriesOfInterest = ['United Kingdom','US','Korea, South','China','Spain','Croatia','Estonia','Armenia','Lithuania','Bulgaria','Latvia','Georgia','Turkey','Italy','Germany','Azerbaijan'] #comment if you need long list of countries
 graphImgPath="../img4_cases_R_"+'-'.join(countriesOfInterest)+".png"
-fromFirstNOfCases = 30
+fromFirstNOfCases = 1
 firstNOfdays = -1
 Normalized = True # if True, cases/(population in million) 
 path_casesByDays="https://raw.githubusercontent.com/pomber/covid19/master/docs/timeseries.json"
@@ -75,7 +75,7 @@ for country in countriesOfInterest:
     if (showCases): 
         ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+', '+str(population.at[country,'inMillions'])+'m')
         lastCaseY=int(confirmedBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
+        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY)+' '+country,fontsize=5)
 
 if (Normalized): ax.set(xlabel='days', ylabel='N of cases divided by population in millions', title="from first "+str(fromFirstNOfCases)+"  cases")
 else: ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")

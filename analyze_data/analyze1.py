@@ -43,7 +43,7 @@ rects1=ax.bar(x_pos+0.2, cases['deaths'],                 label='death cases',  
 rects2=ax.bar(x_pos-0.2, cases['recovered'],              label='recovered cases',           width=0.2, align='center', color='green')
 rects3=ax.bar(x_pos,     cases['active'],                 label='active cases',          width=0.2, align='center', color='blue')
 ax.set_xticks(x_pos)
-ax.set_xticklabels(cases['country']+'\n tested \n population in % \n'+round(cases['tested_Population'],5).astype(str),fontsize=5)
+ax.set_xticklabels(cases['country']+'\n total:'+cases['cases'].astype(str),fontsize=5)
 ax.set_ylabel('cases')
 ax.set_title('cases by country')
 ax.legend()

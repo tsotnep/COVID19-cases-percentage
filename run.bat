@@ -12,7 +12,7 @@ scrapy crawl parse_population -o ../../parsed_population.json
 
 cd ../../analyze_data
 python analyze1.py
-python analyze2.py
+Rem python analyze2.py
 python analyze3.py
 python analyze4.py
 

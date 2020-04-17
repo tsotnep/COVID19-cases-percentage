@@ -1,7 +1,7 @@
 [
 {"country": "China", "population": 1439323776, "medAge": 38},
 {"country": "India", "population": 1380004385, "medAge": 28},
-{"country": "United States", "population": 331002651, "medAge": 38},
+{"country": "US", "population": 331002651, "medAge": 38},
 {"country": "Indonesia", "population": 273523615, "medAge": 30},
 {"country": "Pakistan", "population": 220892340, "medAge": 23},
 {"country": "Brazil", "population": 212559417, "medAge": 33},
@@ -26,7 +26,7 @@
 {"country": "South Africa", "population": 59308690, "medAge": 28},
 {"country": "Myanmar", "population": 54409800, "medAge": 29},
 {"country": "Kenya", "population": 53771296, "medAge": 20},
-{"country": "South Korea", "population": 51269185, "medAge": 44},
+{"country": "Korea, South", "population": 51269185, "medAge": 44},
 {"country": "Colombia", "population": 50882891, "medAge": 31},
 {"country": "Spain", "population": 46754778, "medAge": 45},
 {"country": "Uganda", "population": 45741007, "medAge": 17},

@@ -16,6 +16,8 @@ path_death      ="../parsed_casesByDaysDeaths.json"
 path_recov      ="../parsed_casesByDaysRecovered.json"
 #<<changables
 
+if not os.path.exists('./img5_dailyCases'):
+    os.makedirs('./img5_dailyCases')
 
 for c in range (0, len(countriesOfInterest)):
     graphImgPath    ="../img5_dailyCases/cases_"+countriesOfInterest[c]+".png"

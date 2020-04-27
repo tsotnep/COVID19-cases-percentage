@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import json
 import numpy as np
-
+# tested percentage of population
 path_population="../parsed_population.json"
 path_cases="../parsed_cases.json"
 graphImgPath="../img3_tested_Percentage.png"
@@ -44,7 +44,7 @@ x_pos = np.arange(cases['country'].count())
 rects1=ax.bar(x_pos-0.4, cases['tests_pop'],                        width=0.2, align='center', color='yellow'     , label='tested population in %')
 rects2=ax.bar(x_pos-0.2, cases['cases_pop'],                        width=0.2, align='center', color='orange'   , label='total cases of population in %')
 ax.set_xticks(x_pos)
-ax.set_xticklabels(cases['country']+'\n tested \n population in % \n'+round(cases['tests_pop'],5).astype(str),fontsize=5)
+ax.set_xticklabels(cases['country']+'\n total tests: \n'+round(cases['tests'],5).astype(str),fontsize=5)
 ax.set_ylabel('percentage')
 ax.set_title('cases by country')
 ax.legend()

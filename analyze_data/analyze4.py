@@ -8,19 +8,21 @@ from matplotlib.ticker import MaxNLocator
 from itertools import cycle
 from itertools import repeat
 import os
-
+# number of cases normalized/raw by population
 #changables>>
-
-countriesOfInterest = ['United Kingdom','US','Korea, South','China','Spain','Croatia','Estonia','Armenia','Lithuania','Bulgaria','Latvia','Georgia','Turkey','Italy','Germany','Azerbaijan'] #comment if you need long list of countries
-graphImgPath="../img4_cases_R_"+'-'.join(countriesOfInterest)+".png"
-fromFirstNOfCases = 1
-firstNOfdays = -1
+countriesOfInterest = ['Georgia','Estonia','Armenia','Azerbaijan','Bulgaria'] #SMALL countries
+countriesOfInterest = ['US','United Kingdom','Germany','France','Italy','Russia'] #BIG countries
+countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany'] #BIG and SMALL countries
+#countriesOfInterest = ['Russia'] #Single
 Normalized = True # if True, cases/(population in million) 
+showCases = True #make it always True
+showRecoveries = False #make it True if only single country is in countriesOfInterest
+showDeaths = False #make it True if only single country is in countriesOfInterest
+graphImgPath="../img4_cases_R_"+'-'.join(countriesOfInterest)+".png"
+fromFirstNOfCases = 100
+firstNOfdays = -1
 path_casesByDays="https://raw.githubusercontent.com/pomber/covid19/master/docs/timeseries.json"
 path_population="../parsed_population.json"
-showCases = True
-showRecoveries = False
-showDeaths = False
 #<<changables
 
 
@@ -77,8 +79,8 @@ for country in countriesOfInterest:
         lastCaseY=int(confirmedBydays.loc[country][lastCaseX])
         ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY)+' '+country,fontsize=5)
 
-if (Normalized): ax.set(xlabel='days', ylabel='N of cases divided by population in millions', title="from first "+str(fromFirstNOfCases)+"  cases")
-else: ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")
+if (Normalized):    ax.set(xlabel='days', ylabel='N of cases divided by population in millions', title="from first "+str(fromFirstNOfCases)+" cases, Normalized by population")
+else:               ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")
 ax.grid()
 if (firstNOfdays>0):
     plt.xlim(0,firstNOfdays)

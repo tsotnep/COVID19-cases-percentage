@@ -13,4 +13,4 @@ will generate/store .json files from all of those data
 will generate multiple types of charts/plots
 
 
-[script1](https://raw.githubusercontent.com/tsotnep/COVID19-cases-percentage/68c5d83e1a216f774c64d05d225ea4d6ffb8e992/img1_Inf_Dead_Recov.png)
+![script1](https://raw.githubusercontent.com/tsotnep/COVID19-cases-percentage/68c5d83e1a216f774c64d05d225ea4d6ffb8e992/img1_Inf_Dead_Recov.png)

@@ -26,7 +26,7 @@ for opt in mergeOptions:
     #read images and store in imgs = []
     imgs = []
     for i in range(len(countriesOfInterest)):
-        img = Image.open("../img5_dailyCases/"+opt+"_"+countriesOfInterest[i]+".png")
+        img = Image.open("../temp/"+opt+"_"+countriesOfInterest[i]+".png")
         imgs.append(img)
 
     #build rows
@@ -42,4 +42,4 @@ for opt in mergeOptions:
     for i in range(1, numberOfRows):
         imgs_v[0] = get_concat_v(imgs_v[0],imgs_v[i]) #concatenate rows to each other
 
-    imgs_v[0].save('../img5_daily_'+opt+'_Merged.png')
+    imgs_v[0].save('../img678_daily_'+opt+'_Merged.png')

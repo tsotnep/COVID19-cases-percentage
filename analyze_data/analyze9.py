@@ -13,18 +13,21 @@ import os
 countriesOfInterest = ['Georgia','Estonia','Armenia','Azerbaijan','Bulgaria'] #SMALL countries
 countriesOfInterest = ['US','United Kingdom','Germany','France','Italy','Russia'] #BIG countries
 countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany'] #BIG and SMALL countries
-#countriesOfInterest = ['Russia'] #Single
+countriesOfInterest = ['Georgia'] #Single
 Normalized = False # if True, cases/(population in million) 
 showCases = True #make it always True
-showRecoveries = False #make it True if only single country is in countriesOfInterest
-showDeaths = False #make it True if only single country is in countriesOfInterest
-graphImgPath="../img4_cases_R_"+'-'.join(countriesOfInterest)+".png"
+showRecoveries = True #make it True if only single country is in countriesOfInterest
+showDeaths = True #make it True if only single country is in countriesOfInterest
+graphImgPath="../temp/img9_cases_R_"+'-'.join(countriesOfInterest)+".png"
 fromFirstNOfCases = 100
 firstNOfdays = -1
 path_casesByDays="https://raw.githubusercontent.com/pomber/covid19/master/docs/timeseries.json"
 path_population="../parsed_population.json"
 #<<changables
 
+
+if not os.path.exists('../temp'):
+    os.makedirs('../temp')
 
 #leave only the countries we need
 population_json = json.load(open(path_population))
@@ -67,15 +70,15 @@ for country in countriesOfInterest:
     firstCaseIndex=int(firstCases.loc[country])
     lastCaseX=int(cases[cases.columns[0]].count())-1
     if (showRecoveries): 
-        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), recoveredBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' recov') 
+        ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), recoveredBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total recoveries') 
         lastCaseY=int(recoveredBydays.loc[country][lastCaseX])
         ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showDeaths): 
-        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), deathsBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' death')
+        ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), deathsBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total deaths')
         lastCaseY=int(deathsBydays.loc[country][lastCaseX])
         ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showCases): 
-        ax.plot(range(0, cases[cases.columns[0]].count()-firstCaseIndex), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+', '+str(population.at[country,'inMillions'])+'m')
+        ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total cases')
         lastCaseY=int(confirmedBydays.loc[country][lastCaseX])
         ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY)+' '+country,fontsize=5)
 
@@ -86,9 +89,7 @@ if (firstNOfdays>0):
     plt.xlim(0,firstNOfdays)
 
 #legend location
-box = ax.get_position()
-ax.set_position([box.x0, box.y0 + box.height * 0.05, box.width, box.height])
-ax.legend(fontsize=6, loc='upper center', bbox_to_anchor=(0.5, -0.05),fancybox=False, shadow=False, ncol=5)
+ax.legend()
 
 #save to file
 if(Normalized): 

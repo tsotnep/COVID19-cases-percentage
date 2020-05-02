@@ -15,11 +15,11 @@ path_death      ="../parsed_casesByDaysDeaths.json"
 path_recov      ="../parsed_casesByDaysRecovered.json"
 #<<changables
 
-if not os.path.exists('./img5_dailyCases'):
-    os.makedirs('./img5_dailyCases')
+if not os.path.exists('../temp'):
+    os.makedirs('../temp')
 
 for c in range (0, len(countriesOfInterest)):
-    graphImgPath    ="../img5_dailyCases/deaths_"+countriesOfInterest[c]+".png"
+    graphImgPath    ="../temp/deaths_"+countriesOfInterest[c]+".png"
     popul_json      = json.load(open(path_popul))
     cases_json      = json.load(open(path_cases))
     confr_json      = json.load(open(path_confr))

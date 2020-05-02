@@ -22,5 +22,8 @@ Rem python analyze5.py
 python analyze6.py >nul 2>&1
 python analyze7.py >nul 2>&1
 python analyze8.py >nul 2>&1
+python analyze9.py >nul 2>&1
+python analyze10.py >nul 2>&1
 python merge.py >nul 2>&1
+python merge2.py >nul 2>&1
 Rem pause

@@ -3,7 +3,7 @@ import gc
 
 #changables>>
 # countriesOfInterest should contain only countries chosen from analyze6,7,8
-countriesOfInterest = ['Georgia']
+countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany']
 #<<changables
 
 
@@ -19,7 +19,9 @@ def get_concat_v(im1, im2):
     dst.paste(im1, (0, 0))
     dst.paste(im2, (0, im1.height))
     return dst
-img1=Image.open('../temp/img9_cases_R_'+countriesOfInterest[0]+'.png')
-img2=Image.open('../temp/img10_daily_'+countriesOfInterest[0]+'.png')
 
-get_concat_h(img1, img2).save('../img910_total_daily.png')
+for c in countriesOfInterest:
+    img1=Image.open('../temp/an9/img9_cases_R_'+c+'.png')
+    img2=Image.open('../temp/an10/img10_daily_'+c+'.png')
+
+    get_concat_h(img1, img2).save('../img910_total_daily'+c+'.png')

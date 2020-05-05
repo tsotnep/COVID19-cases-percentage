@@ -15,15 +15,15 @@ Rem pause
 
 cd ../../analyze_data
 python analyze1.py
-Rem python analyze2.py
+python analyze2.py
 python analyze3.py
 python analyze4.py
-Rem python analyze5.py
-python analyze6.py >nul 2>&1
-python analyze7.py >nul 2>&1
-python analyze8.py >nul 2>&1
-python analyze9.py >nul 2>&1
-python analyze10.py >nul 2>&1
-python merge.py >nul 2>&1
-python merge2.py >nul 2>&1
+python analyze5.py
+python analyze6.py 
+python analyze7.py 
+python analyze8.py 
+python analyze9.py 
+python analyze10.py 
+python merge.py 
+python merge2.py 
 Rem pause

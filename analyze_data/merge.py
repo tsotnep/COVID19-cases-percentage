@@ -4,7 +4,7 @@ import gc
 #changables>>
 # countriesOfInterest should contain only countries chosen from analyze6,7,8
 countriesOfInterest = ['Azerbaijan', 'Georgia', 'Armenia', 'Turkey', 'Estonia', 'Latvia', 'Lithuania', 'US', 'Germany','Italy','Spain', 'United Kingdom', 'Russia','Portugal','Poland']
-mergeOptions = ['cases','deaths','recov']
+mergeOptions = ['an6/cases','an7/deaths','an8/recov']
 numberOfRows = 3
 #<<changables
 
@@ -42,4 +42,4 @@ for opt in mergeOptions:
     for i in range(1, numberOfRows):
         imgs_v[0] = get_concat_v(imgs_v[0],imgs_v[i]) #concatenate rows to each other
 
-    imgs_v[0].save('../img678_daily_'+opt+'_Merged.png')
+    imgs_v[0].save('../img678_daily_'+opt[4:]+'_Merged.png')

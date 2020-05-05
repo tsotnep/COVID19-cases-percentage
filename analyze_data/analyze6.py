@@ -1,3 +1,4 @@
+# daily cases by countries
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
@@ -6,7 +7,6 @@ import json
 import numpy as np
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,AutoMinorLocator)
 
-# daily cases by countries, improvement of script analyze5, now this accepts list of countries and generates separate files
 #changables>>
 countriesOfInterest = ['Azerbaijan', 'Georgia', 'Armenia', 'Turkey', 'Estonia', 'Latvia', 'Lithuania', 'US', 'Germany','Italy','Spain','Greece', 'United Kingdom', 'Russia','China','Portugal','Poland']
 path_popul      ="../parsed_population.json"
@@ -16,11 +16,11 @@ path_death      ="../parsed_casesByDaysDeaths.json"
 path_recov      ="../parsed_casesByDaysRecovered.json"
 #<<changables
 
-if not os.path.exists('../temp'):
-    os.makedirs('../temp')
+if not os.path.exists('../temp/an6'):
+    os.makedirs('../temp/an6')
 
 for c in range (0, len(countriesOfInterest)):
-    graphImgPath    ="../temp/cases_"+countriesOfInterest[c]+".png"
+    graphImgPath    ="../temp/an6/cases_"+countriesOfInterest[c]+".png"
     popul_json      = json.load(open(path_popul))
     cases_json      = json.load(open(path_cases))
     confr_json      = json.load(open(path_confr))

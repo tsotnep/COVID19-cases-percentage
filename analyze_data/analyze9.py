@@ -1,3 +1,4 @@
+# daily total cases-deaths-recoveries of a country/countries
 import json
 import requests 
 import numpy as np
@@ -8,17 +9,13 @@ from matplotlib.ticker import MaxNLocator
 from itertools import cycle
 from itertools import repeat
 import os
-# number of cases normalized/raw by population
+
 #changables>>
-countriesOfInterest = ['Georgia','Estonia','Armenia','Azerbaijan','Bulgaria'] #SMALL countries
-countriesOfInterest = ['US','United Kingdom','Germany','France','Italy','Russia'] #BIG countries
-countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany'] #BIG and SMALL countries
-countriesOfInterest = ['Georgia'] #Single
-Normalized = False # if True, cases/(population in million) 
+countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany']
 showCases = True #make it always True
 showRecoveries = True #make it True if only single country is in countriesOfInterest
 showDeaths = True #make it True if only single country is in countriesOfInterest
-graphImgPath="../temp/img9_cases_R_"+'-'.join(countriesOfInterest)+".png"
+graphImgPath="../temp/an9/img9_cases_R_" #country name is concatenated later
 fromFirstNOfCases = 100
 firstNOfdays = -1
 path_casesByDays="https://raw.githubusercontent.com/pomber/covid19/master/docs/timeseries.json"
@@ -26,8 +23,8 @@ path_population="../parsed_population.json"
 #<<changables
 
 
-if not os.path.exists('../temp'):
-    os.makedirs('../temp')
+if not os.path.exists('../temp/an9'):
+    os.makedirs('../temp/an9')
 
 #leave only the countries we need
 population_json = json.load(open(path_population))
@@ -56,44 +53,28 @@ for country in countriesOfInterest:
             firstCaseFound = True
             firstCases.at[country,0] = days
 
-if (Normalized): 
-    for country in countriesOfInterest:
-        confirmedBydays.loc[country] = (confirmedBydays.loc[country] / population.at[country,'inMillions'])
-        deathsBydays.loc[country] = (deathsBydays.loc[country] / population.at[country,'inMillions'])
-        recoveredBydays.loc[country] = (recoveredBydays.loc[country] / population.at[country,'inMillions'])
-
 #print (confirmedBydays)
-fig, ax = plt.subplots()
 lines = ["-","--","-."] #line types
 linecycler = cycle(lines)
+
 for country in countriesOfInterest:
+    fig, ax = plt.subplots()
     firstCaseIndex=int(firstCases.loc[country])
-    lastCaseX=int(cases[cases.columns[0]].count())-1
     if (showRecoveries): 
         ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), recoveredBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total recoveries') 
-        lastCaseY=int(recoveredBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showDeaths): 
         ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), deathsBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total deaths')
-        lastCaseY=int(deathsBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY),fontsize=7)
     if (showCases): 
         ax.plot(range(firstCaseIndex, cases[cases.columns[0]].count()), confirmedBydays.loc[country][firstCaseIndex:], next(linecycler), linewidth=1.5, label=country+' total cases')
-        lastCaseY=int(confirmedBydays.loc[country][lastCaseX])
-        ax.text(lastCaseX-firstCaseIndex,lastCaseY,str(lastCaseY)+' '+country,fontsize=5)
 
-if (Normalized):    ax.set(xlabel='days', ylabel='N of cases divided by population in millions', title="from first "+str(fromFirstNOfCases)+" cases, Normalized by population")
-else:               ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")
-ax.grid()
-if (firstNOfdays>0):
-    plt.xlim(0,firstNOfdays)
+    ax.set(xlabel='days', ylabel='N of cases', title="from first "+str(fromFirstNOfCases)+"  cases")
+    ax.grid()
+    if (firstNOfdays>0):
+        plt.xlim(0,firstNOfdays)
 
-#legend location
-ax.legend()
+    #legend location
+    ax.legend()
 
-#save to file
-if(Normalized): 
-    s=list(graphImgPath)
-    s[14]="N"
-    graphImgPath = "".join(s)
-fig.savefig(graphImgPath, dpi = 300)
+    graphImagePathByCountry = graphImgPath + country + '.png'
+    #save to file
+    fig.savefig(graphImagePathByCountry, dpi = 300)

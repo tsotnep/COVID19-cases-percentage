@@ -1,10 +1,10 @@
+# confirmed percentage of total tests
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import os
 import json
 import numpy as np
-# confirmed percentage, from population
 path_population="../parsed_population.json"
 path_cases="../parsed_cases.json"
 graphImgPath="../img2_confirmed_percentage.png"

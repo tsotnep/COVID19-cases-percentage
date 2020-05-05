@@ -1,3 +1,4 @@
+# compare countries by daily total cases - normalized by population
 import json
 import requests 
 import numpy as np
@@ -10,11 +11,8 @@ from itertools import repeat
 import os
 # number of cases normalized/raw by population
 #changables>>
-countriesOfInterest = ['Georgia','Estonia','Armenia','Azerbaijan','Bulgaria'] #SMALL countries
-countriesOfInterest = ['US','United Kingdom','Germany','France','Italy','Russia'] #BIG countries
 countriesOfInterest = ['Azerbaijan','Georgia','Estonia','US','Italy','Bulgaria','Armenia','Germany'] #BIG and SMALL countries
-#countriesOfInterest = ['Russia'] #Single
-Normalized = False # if True, cases/(population in million) 
+Normalized = True # if True, cases/(population in million) 
 showCases = True #make it always True
 showRecoveries = False #make it True if only single country is in countriesOfInterest
 showDeaths = False #make it True if only single country is in countriesOfInterest

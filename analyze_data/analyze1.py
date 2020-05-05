@@ -1,10 +1,10 @@
+# infected - dead - recovered numbers, raw data
 import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import os
 import json
 import numpy as np
-# infected - dead - recovered ratios
 path_population="../parsed_population.json"
 path_cases="../parsed_cases.json"
 graphImgPath="../img1_Inf_Dead_Recov.png"

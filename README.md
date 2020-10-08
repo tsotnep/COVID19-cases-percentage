@@ -1,5 +1,7 @@
 # COVID19-cases-percentage
 
+install pandas, scrapy, dataframe, matplotlib packages
+
 just run run.bat on windows
 
 will gather covid19 cases data from worldometers.info

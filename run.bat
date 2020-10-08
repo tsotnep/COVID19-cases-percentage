@@ -26,4 +26,4 @@ python analyze9.py
 python analyze10.py 
 python merge.py 
 python merge2.py 
-Rem pause
+pause
